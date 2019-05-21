@@ -70,19 +70,21 @@ lim.mean<-aes(ymax=larv_plotdat$mean_mean+larv_plotdat$sd_mean,ymin=larv_plotdat
 lim.cv<-aes(ymax=larv_plotdat$mean_cv+larv_plotdat$sd_cv,ymin=larv_plotdat$mean_cv-larv_plotdat$sd_cv)
 
 #Plot mean larval head width
-mean.pl<-ggplot(larv_plotdat,aes(Jdate,mean_mean,shape=Treatment,group=Treatment,color=Treatment,shape=Treatment))+
+mean.pl<-ggplot(larv_plotdat,aes(Date,mean_mean,shape=Treatment,group=Treatment,color=Treatment,shape=Treatment))+
   geom_point(size=3)+geom_errorbar(lim.mean,width=0.75)+
   geom_line()+labs(y="Larval Head Width (mm)",x="")+
+  scale_x_discrete(limits=c("3/21/2018","4/9/2018","4/26/2018"))+
   scale_color_manual(values=c("black","orange","skyblue"),breaks=c("one_date","three_dates","six_dates"),labels=c("Low","Medium","High"))+
   theme(legend.position=c(0.1,0.8),legend.text=element_text(size=10),legend.title=element_text(size=10))+
   scale_shape_manual(values=c(15,17,19),breaks=c("one_date","three_dates","six_dates"),labels=c("Low","Medium","High"))
 mean.pl
 
 #Plot CV of larval head width
-cv.pl<-ggplot(larv_plotdat,aes(Jdate,mean_cv,shape=Treatment,group=Treatment,color=Treatment))+
+cv.pl<-ggplot(larv_plotdat,aes(Date,mean_cv,shape=Treatment,group=Treatment,color=Treatment))+
   geom_point(size=3)+
   geom_errorbar(lim.cv,width=0.75)+
   geom_line()+
+  scale_x_discrete(limits=c("3/21/2018","4/9/2018","4/26/2018"))+
   labs(y="CV of Larval HW",x="Julian Date")+
   theme(legend.position = "none")+
   scale_color_manual(values=c("black","orange","skyblue"))+
