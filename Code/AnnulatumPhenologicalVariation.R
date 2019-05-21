@@ -150,7 +150,7 @@ aa.surv.pl<-ggplot(aman_dat,aes(Treatment,Quantity/36))+
 
 #save plot as .tiff file
 tiff("Results/Fig2.tiff",res=600,height=10.5,width=7,units="in",compression=c("lzw"))
-plot_grid(aa.svl.pl,aa.svlcv.pl,aa.mass.pl,aa.masscv.pl,aa.surv.pl,aa.day.pl,
+plot_grid(aa.svl.pl,aa.svlcv.pl,aa.mass.pl,aa.masscv.pl,aa.day.pl,aa.daycv.pl,aa.surv.pl,
           ncol=2,align="hv",labels=LETTERS[1:6])
 dev.off()
 
