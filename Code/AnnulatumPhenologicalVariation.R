@@ -135,10 +135,14 @@ aa.masscv.pl<-ggplot(aman_dat,aes(Treatment,Mass_cv))+
   geom_boxplot()+
   labs(y="CV of Mass",x="")+
   scale_x_discrete(labels=c("","",""));aa.masscv.pl
-aa.day.pl<-ggplot(aman_dat,aes(Treatment,Day_cv))+
+aa.day.pl<-ggplot(aman_dat,aes(Treatment,Day_mean))+
+  geom_boxplot()+
+  labs(y="Mean Metamorphosis Date",x="Phenology Treatment")+
+  scale_x_discrete(labels=c("Low","Medium","High"));aa.day.pl
+aa.daycv.pl<-ggplot(aman_dat,aes(Treatment,Day_cv))+
   geom_boxplot()+
   labs(y="CV of Metamorphosis Date",x="Phenology Treatment")+
-  scale_x_discrete(labels=c("Low","Medium","High"));aa.day.pl
+  scale_x_discrete(labels=c("Low","Medium","High"));aa.daycv.pl
 aa.surv.pl<-ggplot(aman_dat,aes(Treatment,Quantity/36))+
   geom_boxplot()+lims(y=c(0,1))+
   labs(y="Percent Survival",x="Phenology Treatment")+
@@ -155,18 +159,21 @@ svl.mod<-lm(SVL_mean~Treatment,data=aman_dat)
 svlcv.mod<-lm(SVL_cv~Treatment,data=aman_dat)
 mass.mod<-lm(Mass_mean~Treatment,data=aman_dat)
 masscv.mod<-lm(Mass_cv~Treatment,data=aman_dat)
+day.mod<-lm(Day_mean~Treatment,data=aman_dat)
 daycv.mod<-lm(Day_cv~Treatment,data=aman_dat)
 surv.mod<-glmer(cbind(Quantity,36-Quantity)~Treatment+(1|Tank),data=aman_dat,binomial)
 Anova(svl.mod)
 Anova(svlcv.mod)
 Anova(mass.mod)
 Anova(masscv.mod)
+Anova(day.mod)
 Anova(daycv.mod)
 Anova(surv.mod)
 summary(svl.mod)
 summary(svlcv.mod)
 summary(mass.mod)
 summary(masscv.mod)
+summary(day.mod)
 summary(daycv.mod)
 summary(surv.mod)
 
