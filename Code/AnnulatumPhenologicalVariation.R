@@ -137,16 +137,16 @@ aa.masscv.pl<-ggplot(aman_dat,aes(Treatment,Mass_cv))+
   scale_x_discrete(labels=c("","",""));aa.masscv.pl
 aa.day.pl<-ggplot(aman_dat,aes(Treatment,Day_mean))+
   geom_boxplot()+
-  labs(y="Mean Metamorphosis Date",x="Phenology Treatment")+
-  scale_x_discrete(labels=c("Low","Medium","High"));aa.day.pl
+  labs(y="Mean Metamorphosis Date",x="")+
+  scale_x_discrete(labels=c("","",""));aa.day.pl
 aa.daycv.pl<-ggplot(aman_dat,aes(Treatment,Day_cv))+
   geom_boxplot()+
   labs(y="CV of Metamorphosis Date",x="Phenology Treatment")+
-  scale_x_discrete(labels=c("Low","Medium","High"));aa.daycv.pl
+  scale_x_discrete(labels=c("Single","Pulsed","Continuous"));aa.daycv.pl
 aa.surv.pl<-ggplot(aman_dat,aes(Treatment,Quantity/36))+
   geom_boxplot()+lims(y=c(0,1))+
   labs(y="Percent Survival",x="Phenology Treatment")+
-  scale_x_discrete(labels=c("Low","Medium","High"));aa.surv.pl
+  scale_x_discrete(labels=c("Single","Pulsed","Continuous"));aa.surv.pl
 
 #save plot as .tiff file
 tiff("Results/Fig2.tiff",res=600,height=10.5,width=7,units="in",compression=c("lzw"))
@@ -222,25 +222,25 @@ summary(update(div.size,subset=c(meanHW>5)))
 surv.trt.pl<-ggplot(all_wide,aes(Treatment,PercentSurvival))+
   geom_boxplot()+
   labs(y="Total Prey Percent Survival",x="")+
-  scale_x_discrete(labels=c("Low","Medium","High"),breaks=c("1 date","3 dates","6 dates"))
+  scale_x_discrete(labels=c("Single","Pulsed","Continuous"),breaks=c("1 date","3 dates","6 dates"))
 surv.hw.pl<-ggplot(all_wide,aes(meanHW,PercentSurvival,group=Treatment))+
   geom_smooth(method = "glm", method.args = list(family = "binomial"),aes(color=Treatment),size=2,se=F)+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+
   labs(x="Mean Larval HW (mm)",y="")+
-  scale_shape_manual(name="Treatment",label=c("Low","Medium","High"),values=c(15,17,19))+
-  scale_color_manual(name="Treatment",label=c("Low","Medium","High"),values=c("black","orange","skyblue"))+
+  scale_shape_manual(name="Treatment",label=c("Single","Pulsed","Continuous"),values=c(15,17,19))+
+  scale_color_manual(name="Treatment",label=c("Single","Pulsed","Continuous"),values=c("black","orange","skyblue"))+
   theme(legend.position=c(0.7,0.8),legend.text=element_text(size=10),legend.title=element_text(size=10))
 surv.aman.pl<-ggplot(all_wide,aes(AMAN,PercentSurvival))+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+
   geom_smooth(method = "glm", method.args = list(family = "binomial"),color="black",size=2,se=F)+
   labs(x=expression("Number of "~italic(A.~annulatum)),y="")+
-  scale_shape_manual(name="Treatment",label=c("Low","Medium","High"),values=c(15,17,19))+
+  scale_shape_manual(name="Treatment",label=c("Single","Pulsed","Continuous"),values=c(15,17,19))+
   scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Low","Medium","High"))+
   theme(legend.position="none")
 div.trt.pl<-ggplot(all_wide,aes(Treatment,Diversity))+
   geom_boxplot()+
   labs(y="Shannon Diversity",x="Treatment")+
-  scale_x_discrete(labels=c("Low","Medium","High"),breaks=c("1 date","3 dates","6 dates"))+
+  scale_x_discrete(labels=c("Single","Pulsed","Continuous"),breaks=c("1 date","3 dates","6 dates"))+
   lims(y=c(0,1.5))
 div.hw.pl<-ggplot(all_wide,aes(meanHW,Diversity))+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+
@@ -268,7 +268,7 @@ preysurv<-ggplot(surv_dat,aes(Treatment,Survival,fill=Species))+
   lims(y=c(0,0.75))+
   scale_fill_manual(values=cbbPalette,name="",labels=c("AMSP","ANAM","HYLA","PSFE","RASP"))+
   theme(legend.position = c(x=0.01,y=0.9),legend.direction = "horizontal",legend.text=element_text(size=10),legend.title=element_text(size=10))+
-  scale_x_discrete(labels=c("Low","Medium","High"),limits=c("1 date","3 dates","6 dates"))+
+  scale_x_discrete(labels=c("Single","Pulsed","Continuous"),limits=c("1 date","3 dates","6 dates"))+
   guides(fill=guide_legend(nrow=2,byrow=TRUE))
 
 #save plot as .tiff file
@@ -309,11 +309,11 @@ summary(amsp.surv)
 #Plot Ambystoma responses in relation to phenology treatments
 am.svl.pl<-ggplot(amsp_dat,aes(Treatment,SVL_mean))+
   geom_boxplot()+labs(y="SVL (cm)",x="")+
-  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"));am.svl.pl
+  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"));am.svl.pl
 am.mass.pl<-ggplot(amsp_dat,aes(Treatment,Mass_mean))+
   geom_boxplot()+
   labs(y="Mass (g)",x="")+
-  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"));am.mass.pl
+  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"));am.mass.pl
 am.day.pl<-ggplot(amsp_dat,aes(Treatment,Day_mean))+
   geom_boxplot()+
   labs(y="Date of Metamorphosis",x="")+
@@ -321,7 +321,7 @@ am.day.pl<-ggplot(amsp_dat,aes(Treatment,Day_mean))+
 am.surv.pl<-ggplot(amsp_dat,aes(Treatment,Quantity/45))+
   geom_boxplot()+
   labs(y="Percent Survival")+
-  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"));am.surv.pl
+  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"));am.surv.pl
 
 #save plot as .tiff file
 tiff("Results/FigA1.tiff",res=600,height=7,width=7,units="in",compression=c("lzw"))
@@ -333,15 +333,15 @@ fig4a<-ggplot(amsp_dat,aes(AMAN,Quantity/45))+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+lims(y=c(0,1))+
   geom_smooth(method="glm",method.args = list(family = "binomial"),se=F,color="black")+
   labs(y="Percent Survival",x=expression("Number of surviving"~italic(A.~annulatum)))+
-  scale_shape_manual(values=c(15,17,19),breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"))+
+  scale_shape_manual(values=c(15,17,19),breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"))+
   scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Low","Medium","High"),breaks=c("1 date","3 dates","6 dates"))+
   theme(legend.position=c(0.7,0.8),legend.text=element_text(size=10),legend.title=element_text(size=10))
 fig4b<-ggplot(amsp_dat,aes(meanHW,Quantity/45))+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+lims(y=c(0,1))+
   geom_smooth(method="glm",method.args = list(family = "binomial"),se=F,aes(color=Treatment))+
   labs(y="",x="Mean Larval HW (mm)")+
-  scale_shape_manual(values=c(15,17,19),breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"))+
-  scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Low","Medium","High"),breaks=c("1 date","3 dates","6 dates"))+
+  scale_shape_manual(values=c(15,17,19),breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"))+
+  scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Single","Pulsed","Continuous"),breaks=c("1 date","3 dates","6 dates"))+
   theme(legend.position="none")
 
 #save plot as .tiff file
@@ -366,19 +366,19 @@ rasp_dat<-merge(rasp_dat,all_wide[,c("Tank","AMAN","meanHW")],by="Tank")
 rs.svl.pl<-ggplot(rasp_dat,aes(Treatment,SVL_mean))+
   geom_boxplot()+
   labs(y="SVL (mm)",x="")+
-  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"));rs.svl.pl
+  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"));rs.svl.pl
 rs.mass.pl<-ggplot(rasp_dat,aes(Treatment,Mass_mean))+
   geom_boxplot()+
   labs(y="Mass (g)",x="")+
-  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"));rs.mass.pl
+  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"));rs.mass.pl
 rs.day.pl<-ggplot(rasp_dat,aes(Treatment,Day_mean))+
   geom_boxplot()+
   labs(y="Date of Metamorphosis",x="Treatment")+
-  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"));rs.day.pl
+  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"));rs.day.pl
 rs.surv.pl<-ggplot(rasp_dat,aes(Treatment,Quantity/200))+
   geom_boxplot()+
   labs(y="Percent Survival")+
-  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"));rs.surv.pl
+  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"));rs.surv.pl
 
 #save plot as .tiff file
 tiff("Results/FigA2.tiff",res=600,height=7,width=7,units="in",compression=c("lzw"))
@@ -390,8 +390,8 @@ rasp.aman.pl<-ggplot(all_wide,aes(meanHW,RASP/200))+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+
   geom_smooth(method="glm",method.args = list(family = "binomial"),se=F,color="black")+
   labs(y="Percent Survival",x="Mean Larval HW (mm)")+
-  scale_shape_manual(values=c(15,17,19),breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"))+
-  scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Low","Medium","High"),breaks=c("1 date","3 dates","6 dates"))+
+  scale_shape_manual(values=c(15,17,19),breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"))+
+  scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Single","Pulsed","Continuous"),breaks=c("1 date","3 dates","6 dates"))+
   theme(legend.position=c(0.7,0.8),legend.text=element_text(size=10),legend.title=element_text(size=10))
 
 #save plot as .tiff file
@@ -428,7 +428,7 @@ Anova(psfe.surv)
 #Phytoplankton plots and analysis
 chla.pl<-ggplot(filter(chla),aes(Treatment,log(TotChla_mgL)))+
   geom_boxplot()+
-  scale_x_discrete(limits=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"))+
+  scale_x_discrete(limits=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"))+
   labs(x="",y="log-Chl a (mg/L)");may_chla.pl
 
 #combine with anuran and salamander data
@@ -445,7 +445,7 @@ zoop<-merge(surv_wide,zoop,by="Tank",all=T)
 
 totzoop.pl<-ggplot(zoop,aes(Treatment,log1p(Total.L)))+
   geom_boxplot()+
-  scale_x_discrete(limits=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"))+
+  scale_x_discrete(limits=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"))+
   labs(x="Treatment",y="log-Total Zooplankton (per L)");may_totzoop.pl
 
 #save plot as .tiff file
