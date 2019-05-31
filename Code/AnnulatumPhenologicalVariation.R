@@ -74,9 +74,9 @@ mean.pl<-ggplot(larv_plotdat,aes(Date,mean_mean,shape=Treatment,group=Treatment,
   geom_point(size=3)+geom_errorbar(lim.mean,width=0.75)+
   geom_line()+labs(y="Larval Head Width (mm)",x="")+
   scale_x_discrete(limits=c("3/21/2018","4/9/2018","4/26/2018"))+
-  scale_color_manual(values=c("black","orange","skyblue"),breaks=c("one_date","three_dates","six_dates"),labels=c("Low","Medium","High"))+
-  theme(legend.position=c(0.1,0.8),legend.text=element_text(size=10),legend.title=element_text(size=10))+
-  scale_shape_manual(values=c(15,17,19),breaks=c("one_date","three_dates","six_dates"),labels=c("Low","Medium","High"))
+  scale_color_manual(values=c("black","orange","skyblue"),breaks=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))+
+  theme(legend.position=c(0.7,0.2),legend.text=element_text(size=10),legend.title=element_text(size=10))+
+  scale_shape_manual(values=c(15,17,19),breaks=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))
 mean.pl
 
 #Plot CV of larval head width
@@ -88,7 +88,7 @@ cv.pl<-ggplot(larv_plotdat,aes(Date,mean_cv,shape=Treatment,group=Treatment,colo
   labs(y="CV of Larval HW",x="Julian Date")+
   theme(legend.position = "none")+
   scale_color_manual(values=c("black","orange","skyblue"))+
-  scale_shape_manual(values=c(15,17,19),breaks=c("one_date","three_dates","six_dates"),labels=c("Low","Medium","High"))
+  scale_shape_manual(values=c(15,17,19),breaks=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))
 
 #save plot as .tiff file
 tiff("Results/Fig1.tiff",height=7,width=3.5,units="in",res=600,compression=c("lzw"))
@@ -222,7 +222,8 @@ summary(update(div.size,subset=c(meanHW>5)))
 surv.trt.pl<-ggplot(all_wide,aes(Treatment,PercentSurvival))+
   geom_boxplot()+
   labs(y="Total Prey Percent Survival",x="")+
-  scale_x_discrete(labels=c("Single","Pulsed","Continuous"),breaks=c("1 date","3 dates","6 dates"))
+  scale_x_discrete(labels=c("Single","Pulsed","Continuous"),breaks=c("1 date","3 dates","6 dates"))+
+  theme(axis.text.x=element_text(size=11))
 surv.hw.pl<-ggplot(all_wide,aes(meanHW,PercentSurvival,group=Treatment))+
   geom_smooth(method = "glm", method.args = list(family = "binomial"),aes(color=Treatment),size=2,se=F)+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+
@@ -241,7 +242,8 @@ div.trt.pl<-ggplot(all_wide,aes(Treatment,Diversity))+
   geom_boxplot()+
   labs(y="Shannon Diversity",x="Treatment")+
   scale_x_discrete(labels=c("Single","Pulsed","Continuous"),breaks=c("1 date","3 dates","6 dates"))+
-  lims(y=c(0,1.5))
+  lims(y=c(0,1.5))+
+  theme(axis.text.x=element_text(size=11))
 div.hw.pl<-ggplot(all_wide,aes(meanHW,Diversity))+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+
   geom_smooth(method = "lm",color="black",size=2,se=F)+
@@ -267,14 +269,14 @@ preysurv<-ggplot(surv_dat,aes(Treatment,Survival,fill=Species))+
   labs(y="Percent Survival",x="Treatment")+
   lims(y=c(0,0.75))+
   scale_fill_manual(values=cbbPalette,name="",labels=c("AMSP","ANAM","HYLA","PSFE","RASP"))+
-  theme(legend.position = c(x=0.01,y=0.9),legend.direction = "horizontal",legend.text=element_text(size=10),legend.title=element_text(size=10))+
+  theme(axis.text.x=element_text(size=11),legend.position = c(x=0.01,y=0.9),legend.direction = "horizontal",legend.text=element_text(size=10),legend.title=element_text(size=10))+
   scale_x_discrete(labels=c("Single","Pulsed","Continuous"),limits=c("1 date","3 dates","6 dates"))+
   guides(fill=guide_legend(nrow=2,byrow=TRUE))
 
 #save plot as .tiff file
 tiff("Results/Fig3.tiff",height=7,width=9,units="in",compression=c("lzw"),res=600)
 plot_grid(surv.trt.pl,surv.hw.pl,surv.aman.pl,preysurv,div.trt.pl,div.hw.pl,
-          align="hv",labels=c(LETTERS[1:]),ncol=3,hjust=-2)
+          align="hv",labels=c(LETTERS[1:6]),ncol=3,hjust=-2)
 dev.off()
 
 #Ambystoma analysis
@@ -317,7 +319,7 @@ am.mass.pl<-ggplot(amsp_dat,aes(Treatment,Mass_mean))+
 am.day.pl<-ggplot(amsp_dat,aes(Treatment,Day_mean))+
   geom_boxplot()+
   labs(y="Date of Metamorphosis",x="")+
-  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Low","Medium","High"));am.day.pl
+  scale_x_discrete(breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"));am.day.pl
 am.surv.pl<-ggplot(amsp_dat,aes(Treatment,Quantity/45))+
   geom_boxplot()+
   labs(y="Percent Survival")+
@@ -334,7 +336,7 @@ fig4a<-ggplot(amsp_dat,aes(AMAN,Quantity/45))+
   geom_smooth(method="glm",method.args = list(family = "binomial"),se=F,color="black")+
   labs(y="Percent Survival",x=expression("Number of surviving"~italic(A.~annulatum)))+
   scale_shape_manual(values=c(15,17,19),breaks=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"))+
-  scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Low","Medium","High"),breaks=c("1 date","3 dates","6 dates"))+
+  scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Single","Pulsed","Continuous"),breaks=c("1 date","3 dates","6 dates"))+
   theme(legend.position=c(0.7,0.8),legend.text=element_text(size=10),legend.title=element_text(size=10))
 fig4b<-ggplot(amsp_dat,aes(meanHW,Quantity/45))+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+lims(y=c(0,1))+
