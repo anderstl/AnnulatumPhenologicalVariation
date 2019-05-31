@@ -137,7 +137,7 @@ aa.masscv.pl<-ggplot(aman_dat,aes(Treatment,Mass_cv))+
   scale_x_discrete(labels=c("","",""));aa.masscv.pl
 aa.day.pl<-ggplot(aman_dat,aes(Treatment,Day_mean))+
   geom_boxplot()+
-  labs(y="Mean Metamorphosis Date",x="")+
+  labs(y="Metamorphosis Date",x="")+
   scale_x_discrete(labels=c("","",""));aa.day.pl
 aa.daycv.pl<-ggplot(aman_dat,aes(Treatment,Day_cv))+
   geom_boxplot()+
@@ -151,7 +151,7 @@ aa.surv.pl<-ggplot(aman_dat,aes(Treatment,Quantity/36))+
 #save plot as .tiff file
 tiff("Results/Fig2.tiff",res=600,height=10.5,width=7,units="in",compression=c("lzw"))
 plot_grid(aa.svl.pl,aa.svlcv.pl,aa.mass.pl,aa.masscv.pl,aa.day.pl,aa.daycv.pl,aa.surv.pl,
-          ncol=2,align="hv",labels=LETTERS[1:6])
+          ncol=2,align="hv",labels=LETTERS[1:7])
 dev.off()
 
 #Annulatum analysis
@@ -274,7 +274,7 @@ preysurv<-ggplot(surv_dat,aes(Treatment,Survival,fill=Species))+
 #save plot as .tiff file
 tiff("Results/Fig3.tiff",height=7,width=9,units="in",compression=c("lzw"),res=600)
 plot_grid(surv.trt.pl,surv.hw.pl,surv.aman.pl,preysurv,div.trt.pl,div.hw.pl,
-          align="hv",labels=c(LETTERS[1:6]),ncol=3,hjust=-2)
+          align="hv",labels=c(LETTERS[1:]),ncol=3,hjust=-2)
 dev.off()
 
 #Ambystoma analysis
