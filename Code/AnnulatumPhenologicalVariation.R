@@ -404,7 +404,6 @@ dev.off()
 #Analyze RASP responses
 rasp.svl<-lm(SVL_mean~Treatment,data=rasp_dat)
 rasp.mass<-lm(Mass_mean~Treatment,data=rasp_dat)
-rasp.smi<-lm(SMI_mean~Treatment,data=rasp_dat)
 rasp.day<-lm(Day_mean~Treatment,data=rasp_dat)
 rasp.surv<-glmer(cbind(RASP,InitialRASP-RASP)~Treatment+meanHW+(1|Tank),data=all_wide,family=binomial)
 Anova(rasp.svl)
@@ -431,24 +430,23 @@ Anova(psfe.surv)
 chla.pl<-ggplot(filter(chla),aes(Treatment,log(TotChla_mgL)))+
   geom_boxplot()+
   scale_x_discrete(limits=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"))+
-  labs(x="",y="log-Chl a (mg/L)");may_chla.pl
+  labs(x="",y="log-Chl a (mg/L)");chla.pl
 
 #combine with anuran and salamander data
 surv_wide$TotAnurans<-rowSums(surv_wide[,c("BUAM","HYLA","PSFE","RASP")])
 chla<-merge(surv_wide,chla,by.x=c("Tank"),by.y=c("Sample"),all=T)
 
 #models
-chla.mod<-lm(log(TotChla_mgL)~Treatment+AMAN+TotAnurans,data=chla,subset=c(DateCollected=="5/4/2018"))
+chla.mod<-lm(log(TotChla_mgL)~Treatment+AMAN+TotAnurans,data=chla)
 Anova(chla.mod)
 summary(chla.mod)
 
 #combine zoolankton data with salamander data
 zoop<-merge(surv_wide,zoop,by="Tank",all=T)
-
 totzoop.pl<-ggplot(zoop,aes(Treatment,log1p(Total.L)))+
   geom_boxplot()+
   scale_x_discrete(limits=c("1 date","3 dates","6 dates"),labels=c("Single","Pulsed","Continuous"))+
-  labs(x="Treatment",y="log-Total Zooplankton (per L)");may_totzoop.pl
+  labs(x="Treatment",y="log-Total Zooplankton (per L)");totzoop.pl
 
 #save plot as .tiff file
 tiff("Results/FigA5.tiff",res=600,height=7,width=3.5,compression=c("lzw"),units="in")
@@ -460,7 +458,7 @@ tot.logmod<-lm(log1p(Total.L)~Treatment,data=zoop)
 Anova(tot.logmod)
 summary(tot.logmod)
 
-tot.poismod<-glmer(Total.L~Treatment+(1|Tank),data=zoop,family="poisson")
+tot.poismod<-glmer(Total.L~Treatment+(1|Tank),data=zoop,family="poisson",subset=c(Jdate==120))
 Anova(tot.poismod)
 tot.negbinmod<-glmer.nb(Total.L~Treatment+(1|Tank),data=zoop)
 Anova(tot.negbinmod)
