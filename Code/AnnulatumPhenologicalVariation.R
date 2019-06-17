@@ -70,13 +70,13 @@ lim.mean<-aes(ymax=larv_plotdat$mean_mean+larv_plotdat$sd_mean,ymin=larv_plotdat
 lim.cv<-aes(ymax=larv_plotdat$mean_cv+larv_plotdat$sd_cv,ymin=larv_plotdat$mean_cv-larv_plotdat$sd_cv)
 
 #Plot mean larval head width
-mean.pl<-ggplot(larv_plotdat,aes(Date,mean_mean,shape=Treatment,group=Treatment,color=Treatment,shape=Treatment))+
+mean.pl<-ggplot(larv_plotdat,aes(Date,mean_mean,group=Treatment,color=Treatment,shape=Treatment))+
   geom_point(size=3)+geom_errorbar(lim.mean,width=0.75)+
   geom_line()+labs(y="Larval Head Width (mm)",x="")+
   scale_x_discrete(limits=c("3/21/2018","4/9/2018","4/26/2018"))+
-  scale_color_manual(values=c("black","orange","skyblue"),breaks=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))+
+  scale_color_manual(values=c("black","orange","skyblue"),limits=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))+
   theme(legend.position=c(0.7,0.2),legend.text=element_text(size=10),legend.title=element_text(size=10))+
-  scale_shape_manual(values=c(15,17,19),breaks=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))
+  scale_shape_manual(values=c(15,17,19),limits=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))
 mean.pl
 
 #Plot CV of larval head width
@@ -228,15 +228,15 @@ surv.hw.pl<-ggplot(all_wide,aes(meanHW,PercentSurvival,group=Treatment))+
   geom_smooth(method = "glm", method.args = list(family = "binomial"),aes(color=Treatment),size=2,se=F)+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+
   labs(x="Mean Larval HW (mm)",y="")+
-  scale_shape_manual(name="Treatment",label=c("Single","Pulsed","Continuous"),values=c(15,17,19))+
-  scale_color_manual(name="Treatment",label=c("Single","Pulsed","Continuous"),values=c("black","orange","skyblue"))+
+  scale_shape_manual(name="Treatment",label=c("Single","Pulsed","Continuous"),values=c(15,17,19),breaks=c("1 date","3 dates","6 dates"))+
+  scale_color_manual(name="Treatment",label=c("Single","Pulsed","Continuous"),values=c("black","orange","skyblue"),breaks=c("1 date","3 dates","6 dates"))+
   theme(legend.position=c(0.7,0.8),legend.text=element_text(size=10),legend.title=element_text(size=10))
 surv.aman.pl<-ggplot(all_wide,aes(AMAN,PercentSurvival))+
   geom_point(aes(shape=Treatment,color=Treatment),size=3)+
   geom_smooth(method = "glm", method.args = list(family = "binomial"),color="black",size=2,se=F)+
   labs(x=expression("Number of "~italic(A.~annulatum)),y="")+
-  scale_shape_manual(name="Treatment",label=c("Single","Pulsed","Continuous"),values=c(15,17,19))+
-  scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Low","Medium","High"))+
+  scale_shape_manual(name="Treatment",label=c("Single","Pulsed","Continuous"),values=c(15,17,19),breaks=c("1 date","3 dates","6 dates"))+
+  scale_color_manual(values=c("black","orange","skyblue"),name="Treatment",label=c("Single","Pulsed","Continuous"))+
   theme(legend.position="none")
 div.trt.pl<-ggplot(all_wide,aes(Treatment,Diversity))+
   geom_boxplot()+
