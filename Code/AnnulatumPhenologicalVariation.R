@@ -75,7 +75,7 @@ mean.pl<-ggplot(larv_plotdat,aes(Date,mean_mean,group=Treatment,color=Treatment,
   geom_line()+labs(y="Larval Head Width (mm)",x="")+
   scale_x_discrete(limits=c("3/21/2018","4/9/2018","4/26/2018"))+
   scale_color_manual(values=c("black","orange","skyblue"),limits=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))+
-  theme(legend.position=c(0.7,0.2),legend.text=element_text(size=10),legend.title=element_text(size=10))+
+  theme(legend.position=c(0.6,0.2),legend.text=element_text(size=10),legend.title=element_text(size=10))+
   scale_shape_manual(values=c(15,17,19),limits=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))
 mean.pl
 
