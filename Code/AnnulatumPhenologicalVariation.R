@@ -26,6 +26,17 @@ extrdate<-function(dat,name){
   return(dat)
 }
 
+my_theme2 <- function()
+{
+  cowplot::theme_cowplot() %+replace%
+    theme(panel.background = element_rect(color = "black", size=0.75,
+                                          linetype=1),
+          panel.border = element_rect(colour = "black", fill=NA, size=0.75),
+          axis.line=element_blank(),
+          strip.background=element_rect(fill='white'),
+          strip.text=element_text(size=12, face='bold'))
+}
+
 #load data
 meta_size<-read.csv("Data/metamorph_size.csv",na.strings = c("-"))
 larv_size <- read.csv("Data/larval_size.csv")
@@ -76,7 +87,8 @@ mean.pl<-ggplot(larv_plotdat,aes(Date,mean_mean,group=Treatment,color=Treatment,
   scale_x_discrete(limits=c("3/21/2018","4/9/2018","4/26/2018"))+
   scale_color_manual(values=c("black","orange","skyblue"),limits=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))+
   theme(legend.position=c(0.6,0.2),legend.text=element_text(size=10),legend.title=element_text(size=10))+
-  scale_shape_manual(values=c(15,17,19),limits=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))
+  scale_shape_manual(values=c(15,17,19),limits=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))+
+  my_theme2()
 mean.pl
 
 #Plot CV of larval head width
@@ -87,8 +99,9 @@ cv.pl<-ggplot(larv_plotdat,aes(Date,mean_cv,shape=Treatment,group=Treatment,colo
   scale_x_discrete(limits=c("3/21/2018","4/9/2018","4/26/2018"))+
   labs(y="CV of Larval HW",x="Julian Date")+
   theme(legend.position = "none")+
-  scale_color_manual(values=c("black","orange","skyblue"))+
-  scale_shape_manual(values=c(15,17,19),breaks=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))
+  scale_color_manual(values=c("black","orange","skyblue"),breaks=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))+
+  scale_shape_manual(values=c(15,17,19),breaks=c("one_date","three_dates","six_dates"),labels=c("Single","Pulsed","Continuous"))+
+  my_theme2()
 
 #save plot as .tiff file
 tiff("Results/Fig1.tiff",height=7,width=3.5,units="in",res=600,compression=c("lzw"))
@@ -120,38 +133,53 @@ aman_dat$Quantity<-ifelse(is.na(aman_dat$Quantity),0,aman_dat$Quantity)
 
 #plot annulatum data by treatment
 aa.svl.pl<-ggplot(aman_dat,aes(Treatment,SVL_mean))+
-  geom_boxplot()+labs(y="SVL (cm)",x="")+
-  scale_x_discrete(labels=c("","",""));aa.svl.pl
+  geom_boxplot(fill="goldenrod")+labs(y="SVL (mm)",x="")+
+  scale_x_discrete(labels=c("","",""))+
+  my_theme2()+
+  theme(plot.margin = unit(c(0,0,0,0), "lines"));aa.svl.pl
 aa.mass.pl<-ggplot(aman_dat,aes(Treatment,Mass_mean))+
-  geom_boxplot()+
+  geom_boxplot(fill="goldenrod")+
   labs(y="Mass (g)",x="")+
-  scale_x_discrete(labels=c("","",""));aa.mass.pl
+  scale_x_discrete(labels=c("","",""))+
+  my_theme2()+
+  theme(plot.margin = unit(c(0,0,0,0), "lines"));aa.mass.pl
 aa.svlcv.pl<-ggplot(aman_dat,aes(Treatment,SVL_cv))+
   geom_boxplot()+
   labs(y="CV of SVL",x="")+
   scale_x_discrete(labels=c("","",""))+
-  annotate(geom="text",x=c(1,2,3),y=0.12,label=c("A","B","AB"));aa.svlcv.pl
+  annotate(geom="text",x=c(1,2,3),y=0.12,label=c("A","B","AB"))+
+  my_theme2();aa.svlcv.pl
 aa.masscv.pl<-ggplot(aman_dat,aes(Treatment,Mass_cv))+
   geom_boxplot()+
   labs(y="CV of Mass",x="")+
-  scale_x_discrete(labels=c("","",""));aa.masscv.pl
+  scale_x_discrete(labels=c("","",""))+
+  my_theme2();aa.masscv.pl
 aa.day.pl<-ggplot(aman_dat,aes(Treatment,Day_mean))+
-  geom_boxplot()+
-  labs(y="Metamorphosis Date",x="")+
-  scale_x_discrete(labels=c("","",""));aa.day.pl
+  geom_boxplot(fill="goldenrod")+
+  labs(y="Metamorphosis DOY",x="Phenological Treatment")+
+  scale_x_discrete(labels=c("Low","Medium","High"))+
+  my_theme2()+
+  theme(plot.margin = unit(c(0,0,0,0), "lines"));aa.day.pl
 aa.daycv.pl<-ggplot(aman_dat,aes(Treatment,Day_cv))+
   geom_boxplot()+
-  labs(y="CV of Metamorphosis Date",x="Phenology Treatment")+
-  scale_x_discrete(labels=c("Single","Pulsed","Continuous"));aa.daycv.pl
+  labs(y="CV of Metamorphosis DOY",x="Phenology Treatment")+
+  scale_x_discrete(labels=c("Single","Pulsed","Continuous"))+
+  my_theme2();aa.daycv.pl
 aa.surv.pl<-ggplot(aman_dat,aes(Treatment,Quantity/36))+
-  geom_boxplot()+lims(y=c(0,1))+
-  labs(y="Percent Survival",x="Phenology Treatment")+
-  scale_x_discrete(labels=c("Single","Pulsed","Continuous"));aa.surv.pl
+  geom_boxplot(fill="goldenrod")+lims(y=c(0,1))+
+  labs(y="Percent Survival",x="Phenological Treatment")+
+  scale_x_discrete(labels=c("Low","Medium","High"))+
+  my_theme2()+
+  theme(plot.margin = unit(c(0,0,0,0), "lines"));aa.surv.pl
 
 #save plot as .tiff file
 tiff("Results/Fig2.tiff",res=600,height=10.5,width=7,units="in",compression=c("lzw"))
 plot_grid(aa.svl.pl,aa.svlcv.pl,aa.mass.pl,aa.masscv.pl,aa.day.pl,aa.daycv.pl,aa.surv.pl,
           ncol=2,align="hv",labels=LETTERS[1:7])
+dev.off()
+
+png("Interim_report.png",res=600,height=7,width=7,units="in")
+plot_grid(aa.svl.pl,aa.mass.pl,aa.day.pl,aa.surv.pl,ncol=2,align="hv")
 dev.off()
 
 #Annulatum analysis
